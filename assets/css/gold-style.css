@@ -1,0 +1,243 @@
+/* Gold Gallery Companion - Frontend Styles */
+
+.gold-product-info {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.gold-price-per-gram {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.gold-price-per-gram .label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.gold-price-per-gram .separator {
+    margin: 0 10px;
+    color: #999;
+}
+
+.gold-product-details {
+    margin-bottom: 15px;
+}
+
+.gold-product-details p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.gold-product-details strong {
+    color: #333;
+}
+
+.gold-price-breakdown-btn {
+    margin-top: 10px !important;
+}
+
+/* Loop display */
+.gold-loop-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.gold-loop-info .gold-karat {
+    background: #d4af37;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.gold-loop-info .gold-weight {
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.gold-loop-info .gold-price-per-gram {
+    display: block;
+    margin-top: 3px;
+}
+
+/* Cart countdown */
+.gold-cart-countdown {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.gold-cart-countdown .gold-timer-icon {
+    font-size: 32px;
+}
+
+.gold-cart-countdown .gold-timer-content p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #856404;
+}
+
+.gold-countdown-timer {
+    font-size: 18px;
+    font-weight: bold;
+    color: #856404;
+}
+
+.gold-countdown-timer .countdown-label {
+    margin-right: 5px;
+}
+
+/* Mini cart timer */
+.gold-mini-cart-timer {
+    background: #fff3cd;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gold-mini-cart-timer .gold-mini-cart-label {
+    color: #856404;
+}
+
+.gold-mini-cart-timer .gold-mini-cart-time {
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+/* Price modal */
+.gold-modal {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gold-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.gold-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.gold-modal-close:hover {
+    color: #000;
+}
+
+.gold-modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.gold-price-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.gold-price-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.gold-price-table tr:last-child td {
+    border-bottom: none;
+}
+
+.gold-price-table .highlight td {
+    font-weight: bold;
+    background: #f9f9f9;
+}
+
+.gold-price-table .subtotal td {
+    font-weight: bold;
+}
+
+.gold-price-table .total td {
+    font-size: 18px;
+    color: #d4af37;
+    background: #fafafa;
+    padding: 15px 12px;
+}
+
+/* Price updated notice */
+.gold-price-updated {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+/* Thank you page */
+.gold-order-info {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.gold-order-info h2 {
+    margin-top: 0;
+}
+
+.gold-order-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.gold-order-info li {
+    padding: 5px 0;
+}
+
+/* Admin styles */
+.gold-price-info-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+}
+
+.gold-price-info-box p {
+    margin: 5px 0;
+}
+
+.gold-price-info-box .description {
+    font-size: 12px;
+    color: #666;
+}

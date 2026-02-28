@@ -1,0 +1,399 @@
+# Copyright (C) 2026
+# This file is distributed under the same license as the Gold Gallery Companion package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gold Gallery Companion 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gold-gallery-companion\n"
+"POT-Creation-Date: 2026-02-27 12:00+0000\n"
+"PO-Revision-Date: 2026-02-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: \n"
+
+#: includes/class-gold-settings.php
+msgid "Gold Settings"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Gold prices have been refreshed successfully!"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Current Gold Prices"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "18K Gold:"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "24K Gold:"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Toman/gram"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Prices refresh automatically every 1 hour."
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Next refresh in: %s"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Refresh Now"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Gold Pricing Settings"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Configure gold pricing and display settings."
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Enable Auto Price Update"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Automatically update gold prices from TGJU"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Default Gold Karat"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "18K (750)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "24K (999)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Default karat for new products"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Default Making Charge (%)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Default Ojrat-e-Saakht percentage"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Profit Margin (%)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Profit margin percentage"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "VAT (%)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Value Added Tax percentage"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Price Display Format"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Toman"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Rial"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Manual Price Fallback"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Set manual prices as fallback when TGJU is unavailable. Enter prices in Rial (not Toman)."
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Manual 18K Price (Rial/gram)"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Optional: Used when auto-fetch fails"
+msgstr ""
+
+#: includes/class-gold-settings.php
+msgid "Manual 24K Price (Rial/gram)"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Gold Product Data"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "This is a gold product"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Gold Karat:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Weight (grams):"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Stone Weight (grams):"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Weight of gemstones to exclude from gold calculation"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Making Charge (%):"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Branch/Location:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "e.g., Tehran - Main Branch"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Current Price Preview"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "18K Price:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "24K Price:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "gram"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Calculated Price:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Gold Product"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Enable gold pricing for this product"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Gold Karat"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Gold Weight (grams)"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Stone Weight (grams)"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Ojrat-e-Saakht percentage"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Physical store location"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Karat:"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Weight (g):"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Stone Weight (g):"
+msgstr ""
+
+#: includes/class-gold-product-meta.php
+msgid "Branch:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Current Gold Price:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "g"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Karat:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Weight:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Stone Weight:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Pure Gold Weight:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Making Charge:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Branch:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "View Price Breakdown"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Gold prices are reserved for 1 hour from the time added to cart."
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Time remaining:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Expired"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Price reserved:"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Gold Price Breakdown"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Pure Gold Weight"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Gold Price per Gram"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Gold Value"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Subtotal"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Profit Margin"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "VAT"
+msgstr ""
+
+#: includes/class-gold-frontend.php
+msgid "Final Price"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid " (Price updated)"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Gold Karat"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Gold Weight"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Stone Weight"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Making Charge"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Gold Price 18K"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Gold Price 24K"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Rial/gram"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Pickup Branch"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Gold Purchase Details"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "Current Gold Prices:"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "18K Gold:"
+msgstr ""
+
+#: includes/class-gold-price-calculator.php
+msgid "24K Gold:"
+msgstr ""
+
+#: gold-gallery-companion.php
+msgid "Gold Gallery Companion requires WooCommerce to be installed and active."
+msgstr ""
+
+#: assets/js/gold-script.js
+msgid "Price reserved for"
+msgstr ""
+
+#: assets/js/gold-script.js
+msgid "minutes left"
+msgstr ""
+
+#: assets/js/gold-script.js
+msgid "Price updated - prices have changed"
+msgstr ""
+
+#: assets/js/gold-script.js
+msgid "Calculating..."
+msgstr ""
+
+msgid "Price reserved for %d minutes"
+msgstr ""

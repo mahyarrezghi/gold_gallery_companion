@@ -1,0 +1,79 @@
+/* Gold Gallery Companion - Admin Styles */
+
+.gold-product-meta-box {
+    padding: 10px 0;
+}
+
+.gold-field-row {
+    margin-bottom: 15px;
+}
+
+.gold-field-row label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.gold-field-row input[type="text"],
+.gold-field-row input[type="number"],
+.gold-field-row select {
+    width: 100%;
+    max-width: 300px;
+}
+
+.gold-field-row .description {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 3px;
+}
+
+.gold-fields-container {
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.gold-price-preview {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.gold-price-preview h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.gold-price-preview p {
+    margin: 5px 0;
+}
+
+.gold-price-preview .calculated-price {
+    font-size: 16px;
+    color: #d4af37;
+    font-weight: bold;
+    margin-top: 10px !important;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+/* Gold Gallery Companion - Admin Styles */
+
+.gold-variation-fields {
+    padding: 10px;
+    background: #f9f9f9;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.gold-variation-fields select,
+.gold-variation-fields input[type="number"],
+.gold-variation-fields input[type="text"] {
+    width: 100%;
+    max-width: 200px;
+}
