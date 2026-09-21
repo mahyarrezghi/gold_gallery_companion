@@ -428,6 +428,10 @@ class Gold_Price_Calculator {
             return $price_html;
         }
 
+        if ( function_exists( 'is_product' ) && is_product() ) {
+            return '';
+        }
+
         $variations = $product->get_children();
         $min_price = 0;
         
