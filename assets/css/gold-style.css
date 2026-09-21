@@ -26,6 +26,8 @@
 
 .gold-product-details {
     margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .gold-product-details p {
