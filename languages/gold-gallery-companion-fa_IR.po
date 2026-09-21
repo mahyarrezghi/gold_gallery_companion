@@ -116,6 +116,9 @@ msgstr "تومان"
 msgid "Rial"
 msgstr "ریال"
 
+msgid "How to display prices to customers"
+msgstr "نحوه نمایش قیمت‌ها به مشتریان"
+
 msgid "Manual Price Fallback"
 msgstr "قیمت دستی اضطراری"
 
