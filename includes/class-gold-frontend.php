@@ -34,15 +34,14 @@ class Gold_Frontend {
             return;
         }
 
-        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
-        $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
-
         if ( $product->is_type( 'variable' ) ) {
             $default_rows = '';
+            $default_details = null;
 
             foreach ( $product->get_available_variations() as $variation_data ) {
                 if ( ! empty( $variation_data['gold_breakdown'] ) ) {
                     $default_rows = $variation_data['gold_breakdown'];
+                    $default_details = isset( $variation_data['gold_details'] ) ? $variation_data['gold_details'] : null;
                     break;
                 }
             }
@@ -52,6 +51,11 @@ class Gold_Frontend {
             }
 
             echo '<div class="gold-product-info gold-product-info-variable">';
+
+            if ( $default_details ) {
+                $this->render_gold_details( $default_details );
+            }
+
             $this->render_breakdown_table( $default_rows );
             echo '</div>';
 
@@ -74,26 +78,35 @@ class Gold_Frontend {
             return;
         }
 
-        $scraper = Gold_Scraper::get_instance();
-        $price_18k = $scraper->get_display_price( '18k' );
-        $price_24k = $scraper->get_display_price( '24k' );
-        
-        ?>
-        <div class="gold-product-info">
-            <div class="gold-price-per-gram">
-                <span class="label"><?php esc_html_e( 'Current Gold Price:', 'gold-gallery-companion' ); ?></span>
-                <span class="price-18k"><?php echo number_format( $price_18k ); ?> <?php echo esc_html( $currency_label ); ?>/<?php esc_html_e( 'g', 'gold-gallery-companion' ); ?> (18K)</span>
-                <span class="separator">|</span>
-                <span class="price-24k"><?php echo number_format( $price_24k ); ?> <?php echo esc_html( $currency_label ); ?>/<?php esc_html_e( 'g', 'gold-gallery-companion' ); ?> (24K)</span>
-            </div>
-            
-            <div class="gold-product-details">
-                <p><strong><?php esc_html_e( 'Karat:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( strtoupper( $gold_data['karat'] ) ); ?></p>
-                <p><strong><?php esc_html_e( 'Weight:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $gold_data['weight'] ); ?> g</p>
-                <p><strong><?php esc_html_e( 'Making Charge:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $this->format_percent( $gold_data['making_charge'] ) ); ?>%</p>
-            </div>
+        echo '<div class="gold-product-info">';
+        $this->render_gold_details( $this->get_gold_details_data( $gold_data ) );
+        $this->render_breakdown_table( $rows );
+        echo '</div>';
+    }
 
-            <?php $this->render_breakdown_table( $rows ); ?>
+    private function get_gold_details_data( $gold_data ) {
+        $scraper = Gold_Scraper::get_instance();
+        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
+        $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
+
+        return array(
+            'karat'    => $this->get_karat_label( $gold_data['karat'] ),
+            'weight'   => $gold_data['weight'],
+            'price'    => number_format( $scraper->get_display_price( $gold_data['karat'] ) ),
+            'currency' => $currency_label,
+        );
+    }
+
+    private function get_karat_label( $karat ) {
+        return '24k' === strtolower( $karat ) ? __( '24K', 'gold-gallery-companion' ) : __( '18K', 'gold-gallery-companion' );
+    }
+
+    private function render_gold_details( $details ) {
+        ?>
+        <div class="gold-product-details">
+            <p class="gold-price-per-gram"><strong><?php esc_html_e( 'Current Gold Price:', 'gold-gallery-companion' ); ?></strong> <span class="js-gold-price"><?php echo esc_html( $details['price'] ); ?></span> <span class="js-gold-currency"><?php echo esc_html( $details['currency'] ); ?></span>/<?php esc_html_e( 'gram', 'gold-gallery-companion' ); ?> (<span class="js-gold-karat"><?php echo esc_html( $details['karat'] ); ?></span>)</p>
+            <p><strong><?php esc_html_e( 'Karat:', 'gold-gallery-companion' ); ?></strong> <span class="js-gold-karat"><?php echo esc_html( $details['karat'] ); ?></span></p>
+            <p><strong><?php esc_html_e( 'Weight:', 'gold-gallery-companion' ); ?></strong> <span class="js-gold-weight"><?php echo esc_html( $details['weight'] ); ?></span> <?php esc_html_e( 'gram', 'gold-gallery-companion' ); ?></p>
         </div>
         <?php
     }
@@ -122,6 +135,8 @@ class Gold_Frontend {
         if ( '' !== $rows ) {
             $data['gold_breakdown'] = $rows;
         }
+
+        $data['gold_details'] = $this->get_gold_details_data( $gold_data );
 
         return $data;
     }
@@ -257,9 +272,9 @@ class Gold_Frontend {
         $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
         
         echo '<div class="gold-loop-info">';
-        echo '<span class="gold-karat">' . esc_html( strtoupper( $gold_data['karat'] ) ) . '</span>';
-        echo '<span class="gold-weight">' . esc_html( $gold_data['weight'] ) . 'g</span>';
-        echo '<span class="gold-price-per-gram">' . number_format( $price_per_gram ) . ' ' . esc_html( $currency_label ) . '/g</span>';
+        echo '<span class="gold-karat">' . esc_html( $this->get_karat_label( $gold_data['karat'] ) ) . '</span>';
+        echo '<span class="gold-weight">' . esc_html( $gold_data['weight'] ) . ' ' . esc_html__( 'gram', 'gold-gallery-companion' ) . '</span>';
+        echo '<span class="gold-price-per-gram">' . number_format( $price_per_gram ) . ' ' . esc_html( $currency_label ) . '/' . esc_html__( 'gram', 'gold-gallery-companion' ) . '</span>';
         echo '</div>';
     }
 

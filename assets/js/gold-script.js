@@ -9,6 +9,12 @@
         init: function() {
             $('body').addClass('gold-calc-js');
             this.defaultBreakdown = $('.gold-calc-tbody').html() || '';
+            this.defaultDetails = {
+                price: $('.js-gold-price').first().text(),
+                currency: $('.js-gold-currency').first().text(),
+                karat: $('.js-gold-karat').first().text(),
+                weight: $('.js-gold-weight').first().text()
+            };
             this.bindEvents();
             this.positionVariableBreakdown();
             this.initCountdownTimers();
@@ -51,6 +57,11 @@
                 $('.gold-calc-breakdown').show();
             } else {
                 GoldGallery.onResetVariation();
+                return;
+            }
+
+            if (variation.gold_details) {
+                GoldGallery.applyDetails(variation.gold_details);
             }
         },
 
@@ -67,6 +78,17 @@
             } else {
                 $('.gold-calc-breakdown').hide();
             }
+
+            if (GoldGallery.defaultDetails) {
+                GoldGallery.applyDetails(GoldGallery.defaultDetails);
+            }
+        },
+
+        applyDetails: function(details) {
+            $('.js-gold-price').text(details.price);
+            $('.js-gold-currency').text(details.currency);
+            $('.js-gold-karat').text(details.karat);
+            $('.js-gold-weight').text(details.weight);
         },
 
         initCountdownTimers: function() {
