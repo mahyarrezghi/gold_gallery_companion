@@ -13,7 +13,6 @@ class Gold_Frontend {
 
     private function __construct() {
         add_action( 'woocommerce_single_product_summary', array( $this, 'display_gold_price_info' ), 15 );
-        add_action( 'woocommerce_after_shop_loop_item', array( $this, 'display_gold_price_loop' ), 15 );
         
         add_action( 'woocommerce_after_cart', array( $this, 'display_cart_countdown' ) );
         add_action( 'woocommerce_mini_cart_contents', array( $this, 'display_mini_cart_info' ), 10 );
@@ -243,39 +242,6 @@ class Gold_Frontend {
     private function format_percent( $value ) {
         $formatted = number_format( floatval( $value ), 2, '.', '' );
         return rtrim( rtrim( $formatted, '0' ), '.' );
-    }
-
-    public function display_gold_price_loop() {
-        global $product;
-        
-        if ( ! $product ) {
-            return;
-        }
-
-        $product_id = $product->get_id();
-        
-        if ( ! Gold_Product_Meta::is_gold_product( $product_id ) ) {
-            return;
-        }
-
-        $gold_data = Gold_Product_Meta::get_gold_data( $product_id );
-        
-        if ( ! $gold_data['is_gold'] || $gold_data['weight'] <= 0 ) {
-            return;
-        }
-
-        $scraper = Gold_Scraper::get_instance();
-        
-        $price_per_gram = $scraper->get_display_price( $gold_data['karat'] );
-        
-        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
-        $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
-        
-        echo '<div class="gold-loop-info">';
-        echo '<span class="gold-karat">' . esc_html( $this->get_karat_label( $gold_data['karat'] ) ) . '</span>';
-        echo '<span class="gold-weight">' . esc_html( $gold_data['weight'] ) . ' ' . esc_html__( 'gram', 'gold-gallery-companion' ) . '</span>';
-        echo '<span class="gold-price-per-gram">' . number_format( $price_per_gram ) . ' ' . esc_html( $currency_label ) . '/' . esc_html__( 'gram', 'gold-gallery-companion' ) . '</span>';
-        echo '</div>';
     }
 
     public function display_cart_countdown() {

@@ -127,32 +127,6 @@
     }
 }
 
-/* Loop display */
-.gold-loop-info {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-}
-
-.gold-loop-info .gold-karat {
-    background: #d4af37;
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-right: 5px;
-    font-weight: bold;
-}
-
-.gold-loop-info .gold-weight {
-    margin-right: 8px;
-    font-weight: bold;
-}
-
-.gold-loop-info .gold-price-per-gram {
-    display: block;
-    margin-top: 3px;
-}
-
 /* Cart countdown */
 .gold-cart-countdown {
     background: #fff3cd;
