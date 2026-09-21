@@ -1,10 +1,10 @@
 # Persian translations for Gold Gallery Companion.
 msgid ""
 msgstr ""
-"Project-Id-Version: Gold Gallery Companion 1.0.0\n"
+"Project-Id-Version: Gold Gallery Companion 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gold-gallery-companion\n"
 "POT-Creation-Date: 2026-02-27 12:00+0000\n"
-"PO-Revision-Date: 2026-02-27 12:00+0000\n"
+"PO-Revision-Date: 2026-09-21 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -38,6 +38,9 @@ msgstr "طلای ۱۸ عیار:"
 msgid "24K Gold:"
 msgstr "طلای ۲۴ عیار:"
 
+msgid "Active Source:"
+msgstr "منبع فعال:"
+
 msgid "Toman/gram"
 msgstr "تومان/گرم"
 
@@ -59,8 +62,20 @@ msgstr "تنظیمات قیمت‌گذاری و نمایش طلا را پیکر�
 msgid "Enable Auto Price Update"
 msgstr "فعال‌سازی به‌روزرسانی خودکار قیمت"
 
-msgid "Automatically update gold prices from TGJU"
-msgstr "به‌روزرسانی خودکار قیمت طلا از TGJU"
+msgid "Automatically update gold prices from the selected source"
+msgstr "به‌روزرسانی خودکار قیمت طلا از منبع انتخاب‌شده"
+
+msgid "Price Source"
+msgstr "منبع قیمت"
+
+msgid "TGJU (tgju.org)"
+msgstr "TGJU (tgju.org)"
+
+msgid "tala.ir"
+msgstr "tala.ir"
+
+msgid "Primary source for automatic gold prices. The other source is used as a fallback, and if both are unavailable the highest price recorded today is used."
+msgstr "منبع اصلی قیمت‌های خودکار طلا. منبع دیگر به‌عنوان پشتیبان استفاده می‌شود و اگر هر دو منبع در دسترس نباشند، بالاترین قیمت ثبت‌شده امروز استفاده خواهد شد."
 
 msgid "Default Gold Karat"
 msgstr "عیار پیش‌فرض طلا"
@@ -104,8 +119,8 @@ msgstr "ریال"
 msgid "Manual Price Fallback"
 msgstr "قیمت دستی اضطراری"
 
-msgid "Set manual prices as fallback when TGJU is unavailable. Enter prices in Rial (not Toman)."
-msgstr "قیمت‌های دستی را به عنوان راه‌حل اضطراری تنظیم کنید. قیمت‌ها را به ریال وارد کنید (نه تومان)."
+msgid "Set manual prices as fallback when the selected price source is unavailable. Enter prices in Rial (not Toman)."
+msgstr "قیمت‌های دستی را به‌عنوان پشتیبان تنظیم کنید؛ در صورت در دسترس نبودن منبع انتخاب‌شده استفاده می‌شوند. قیمت‌ها را به ریال وارد کنید (نه تومان)."
 
 msgid "Manual 18K Price (Rial/gram)"
 msgstr "قیمت دستی ۱۸ عیار (ریال/گرم)"
@@ -298,3 +313,9 @@ msgstr "تمام قیمت‌های محصولات طلا به‌روزرسانی
 
 msgid "Refresh Gold Prices"
 msgstr "به‌روزرسانی قیمت طلا"
+
+msgid "Permission denied."
+msgstr "دسترسی مجاز نیست."
+
+msgid "Gold pricing is unavailable."
+msgstr "قیمت‌گذاری طلا در دسترس نیست."
