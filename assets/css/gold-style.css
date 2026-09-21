@@ -37,8 +37,92 @@
     color: #333;
 }
 
-.gold-price-breakdown-btn {
-    margin-top: 10px !important;
+/* Branch availability notice */
+.gold-branch {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b8860b;
+}
+
+/* Inline price breakdown */
+.gold-calc-js .gold-product-info-variable {
+    visibility: hidden;
+}
+
+.gold-calc-js .gold-product-info-variable.gold-calc-positioned {
+    visibility: visible;
+}
+
+.gold-calc-breakdown {
+    margin-top: 15px;
+}
+
+.gold-calc-title {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: #333;
+}
+
+.gold-calc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.gold-calc-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.gold-calc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.gold-calc-label {
+    color: #333;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.gold-calc-amount {
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 700;
+    color: #333;
+}
+
+.gold-calc-unit {
+    font-weight: 400;
+    font-size: 12px;
+    color: #777;
+}
+
+.gold-calc-formula {
+    color: #999;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.gold-calc-total td {
+    background: #faf7ef;
+    font-size: 15px;
+    font-weight: 700;
+    color: #b8860b;
+}
+
+.gold-calc-total .gold-calc-formula {
+    color: #b8860b;
+    opacity: 0.75;
+}
+
+@media (max-width: 480px) {
+    .gold-calc-formula {
+        white-space: normal;
+        font-size: 11px;
+    }
 }
 
 /* Loop display */
@@ -119,81 +203,6 @@
 .gold-mini-cart-timer .gold-mini-cart-time {
     font-weight: bold;
     color: #d32f2f;
-}
-
-/* Price modal */
-.gold-modal {
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gold-modal-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-.gold-modal-close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-}
-
-.gold-modal-close:hover {
-    color: #000;
-}
-
-.gold-modal h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-}
-
-.gold-price-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.gold-price-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-}
-
-.gold-price-table tr:last-child td {
-    border-bottom: none;
-}
-
-.gold-price-table .highlight td {
-    font-weight: bold;
-    background: #f9f9f9;
-}
-
-.gold-price-table .subtotal td {
-    font-weight: bold;
-}
-
-.gold-price-table .total td {
-    font-size: 18px;
-    color: #d4af37;
-    background: #fafafa;
-    padding: 15px 12px;
 }
 
 /* Price updated notice */

@@ -349,10 +349,36 @@ class Gold_Price_Calculator {
             if ( 'toman' === $currency ) {
                 $calculated_price = $calculated_price / 10;
             }
-            return wc_price( $calculated_price ) . ' <span class="gold-currency">' . $currency_symbol . '</span>';
+            return wc_price( $calculated_price ) . ' <span class="gold-currency">' . $currency_symbol . '</span>' . $this->get_branch_notice( $product_id, $product->is_type( 'variation' ) ? $product->get_id() : 0 );
         }
 
         return $price_html;
+    }
+
+    private function get_branch_notice( $parent_id, $variation_id = 0 ) {
+        if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+            return '';
+        }
+
+        $branch = '';
+
+        if ( $variation_id ) {
+            $branch = get_post_meta( $variation_id, '_branch_location', true );
+        }
+
+        if ( '' === $branch || false === $branch ) {
+            $branch = get_post_meta( $parent_id, '_branch_location', true );
+        }
+
+        if ( '' === $branch || false === $branch ) {
+            return '';
+        }
+
+        return ' <span class="gold-branch">' . sprintf(
+            /* translators: %s: branch name */
+            esc_html__( 'Available in %s branch.', 'gold-gallery-companion' ),
+            esc_html( $branch )
+        ) . '</span>';
     }
 
     public function get_loop_price( $price, $product ) {
@@ -431,7 +457,7 @@ class Gold_Price_Calculator {
         }
         
         if ( $min_price > 0 ) {
-            return 'از ' . $this->format_gold_price( $min_price );
+            return 'از ' . $this->format_gold_price( $min_price ) . $this->get_branch_notice( $product_id );
         }
         
         return $price_html;

@@ -7,77 +7,66 @@
 
     var GoldGallery = {
         init: function() {
+            $('body').addClass('gold-calc-js');
+            this.defaultBreakdown = $('.gold-calc-tbody').html() || '';
             this.bindEvents();
+            this.positionVariableBreakdown();
             this.initCountdownTimers();
         },
 
         bindEvents: function() {
-            $(document).on('click', '.gold-price-breakdown-btn', this.openPriceModal);
-            $(document).on('click', '.gold-modal-close', this.closePriceModal);
-            $(document).on('click', '#gold-price-modal', this.closeOnBackdrop);
-            $(document).on('keydown', this.handleEscKey);
+            $(document).on('found_variation', '.variations_form', this.onFoundVariation);
+            $(document).on('reset_data', '.variations_form', this.onResetVariation);
         },
 
-        openPriceModal: function(e) {
-            e.preventDefault();
-            
-            var $btn = $(this);
-            var $dataContainer = $btn.siblings('.gold-price-breakdown-data');
-            
-            if ($dataContainer.length === 0) {
+        positionVariableBreakdown: function() {
+            var $container = $('.gold-product-info-variable').first();
+
+            if ($container.length === 0) {
                 return;
             }
 
-            var data = {
-                pureWeight: $dataContainer.data('weight'),
-                karat: $dataContainer.data('karat'),
-                goldPrice: $dataContainer.data('gold-price'),
-                goldValue: $dataContainer.data('gold-value'),
-                makingPct: $dataContainer.data('making-charge-pct'),
-                makingAmount: $dataContainer.data('making-charge-amount'),
-                subtotal: $dataContainer.data('subtotal'),
-                profitPct: $dataContainer.data('profit-margin-pct'),
-                profitAmount: $dataContainer.data('profit-margin'),
-                vatPct: $dataContainer.data('vat-pct'),
-                vatAmount: $dataContainer.data('vat'),
-                finalPrice: $dataContainer.data('final-price'),
-                currency: $dataContainer.data('currency')
-            };
+            var $target = $('.variations_form table.variations').first();
 
-            $('.modal-pure-weight').text(data.pureWeight);
-            $('.modal-gold-price').text(GoldGallery.formatNumber(data.goldPrice));
-            $('.modal-gold-value').text(GoldGallery.formatNumber(data.goldValue));
-            $('.modal-making-pct').text(data.makingPct);
-            $('.modal-making-charge').text(GoldGallery.formatNumber(data.makingAmount));
-            $('.modal-subtotal').text(GoldGallery.formatNumber(data.subtotal));
-            $('.modal-profit-pct').text(data.profitPct);
-            $('.modal-profit').text(GoldGallery.formatNumber(data.profitAmount));
-            $('.modal-vat-pct').text(data.vatPct);
-            $('.modal-vat').text(GoldGallery.formatNumber(data.vatAmount));
-            $('.modal-final-price').text(GoldGallery.formatNumber(data.finalPrice));
-            $('.modal-currency').text(data.currency);
+            if ($target.length === 0) {
+                $target = $('.wp-block-woocommerce-add-to-cart-with-options-variation-selector').first();
+            }
 
-            $('#gold-price-modal').fadeIn(300);
+            if ($target.length > 0) {
+                $container.insertAfter($target);
+            }
+
+            $container.addClass('gold-calc-positioned');
         },
 
-        closePriceModal: function() {
-            $('#gold-price-modal').fadeOut(300);
-        },
+        onFoundVariation: function(e, variation) {
+            var $tbody = $('.gold-calc-tbody');
 
-        closeOnBackdrop: function(e) {
-            if ($(e.target).hasClass('gold-modal')) {
-                $(this).fadeOut(300);
+            if ($tbody.length === 0) {
+                return;
+            }
+
+            if (variation && variation.gold_breakdown) {
+                $tbody.html(variation.gold_breakdown);
+                $('.gold-calc-breakdown').show();
+            } else {
+                GoldGallery.onResetVariation();
             }
         },
 
-        handleEscKey: function(e) {
-            if (e.key === 'Escape' || e.keyCode === 27) {
-                $('#gold-price-modal').fadeOut(300);
-            }
-        },
+        onResetVariation: function() {
+            var $tbody = $('.gold-calc-tbody');
 
-        formatNumber: function(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if ($tbody.length === 0) {
+                return;
+            }
+
+            if (GoldGallery.defaultBreakdown) {
+                $tbody.html(GoldGallery.defaultBreakdown);
+                $('.gold-calc-breakdown').show();
+            } else {
+                $('.gold-calc-breakdown').hide();
+            }
         },
 
         initCountdownTimers: function() {

@@ -17,8 +17,8 @@ class Gold_Frontend {
         
         add_action( 'woocommerce_after_cart', array( $this, 'display_cart_countdown' ) );
         add_action( 'woocommerce_mini_cart_contents', array( $this, 'display_mini_cart_info' ), 10 );
-        
-        add_action( 'wp_footer', array( $this, 'render_price_modal' ) );
+
+        add_filter( 'woocommerce_available_variation', array( $this, 'add_variation_breakdown' ), 10, 3 );
     }
 
     public function display_gold_price_info() {
@@ -34,33 +34,49 @@ class Gold_Frontend {
             return;
         }
 
+        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
+        $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
+
+        if ( $product->is_type( 'variable' ) ) {
+            $default_rows = '';
+
+            foreach ( $product->get_available_variations() as $variation_data ) {
+                if ( ! empty( $variation_data['gold_breakdown'] ) ) {
+                    $default_rows = $variation_data['gold_breakdown'];
+                    break;
+                }
+            }
+
+            if ( '' === $default_rows ) {
+                return;
+            }
+
+            echo '<div class="gold-product-info gold-product-info-variable">';
+            $this->render_breakdown_table( $default_rows );
+            echo '</div>';
+
+            return;
+        }
+
         $gold_data = Gold_Product_Meta::get_gold_data( $product_id );
         
         if ( ! $gold_data['is_gold'] || $gold_data['weight'] <= 0 ) {
             return;
         }
 
-        $scraper = Gold_Scraper::get_instance();
-        $calculator = Gold_Price_Calculator::get_instance();
-        
-        $price_18k = $scraper->get_display_price( '18k' );
-        $price_24k = $scraper->get_display_price( '24k' );
-        $current_price_per_gram = $scraper->get_display_price( $gold_data['karat'] );
-        
-        $calculated_price = $calculator->calculate_price(
-            $gold_data['weight'],
-            $gold_data['karat'],
-            $gold_data['making_charge']
-        );
-        
-        $price_breakdown = $calculator->calculate_price_array(
+        $rows = $this->render_breakdown_rows(
             $gold_data['weight'],
             $gold_data['karat'],
             $gold_data['making_charge']
         );
 
-        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
-        $currency_label = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
+        if ( '' === $rows ) {
+            return;
+        }
+
+        $scraper = Gold_Scraper::get_instance();
+        $price_18k = $scraper->get_display_price( '18k' );
+        $price_24k = $scraper->get_display_price( '24k' );
         
         ?>
         <div class="gold-product-info">
@@ -74,35 +90,144 @@ class Gold_Frontend {
             <div class="gold-product-details">
                 <p><strong><?php esc_html_e( 'Karat:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( strtoupper( $gold_data['karat'] ) ); ?></p>
                 <p><strong><?php esc_html_e( 'Weight:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $gold_data['weight'] ); ?> g</p>
-                <p><strong><?php esc_html_e( 'Making Charge:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $gold_data['making_charge'] ); ?>%</p>
-                <?php if ( ! empty( $gold_data['branch'] ) ) : ?>
-                <p><strong><?php esc_html_e( 'Branch:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $gold_data['branch'] ); ?></p>
-                <?php endif; ?>
+                <p><strong><?php esc_html_e( 'Making Charge:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $this->format_percent( $gold_data['making_charge'] ) ); ?>%</p>
             </div>
-            
-            <button type="button" class="gold-price-breakdown-btn button" data-product-id="<?php echo esc_attr( $product_id ); ?>">
-                <?php esc_html_e( 'View Price Breakdown', 'gold-gallery-companion' ); ?>
-            </button>
-            
-            <div class="gold-price-breakdown-data" 
-                 data-weight="<?php echo esc_attr( $gold_data['weight'] ); ?>"
-                 data-karat="<?php echo esc_attr( $gold_data['karat'] ); ?>"
-                 data-making-charge="<?php echo esc_attr( $gold_data['making_charge'] ); ?>"
-                 data-gold-price="<?php echo esc_attr( $price_breakdown['gold_price_per_gram'] ); ?>"
-                 data-gold-value="<?php echo esc_attr( $price_breakdown['gold_value'] ); ?>"
-                 data-making-charge-pct="<?php echo esc_attr( $price_breakdown['making_charge_pct'] ); ?>"
-                 data-making-charge-amount="<?php echo esc_attr( $price_breakdown['making_charge'] ); ?>"
-                 data-subtotal="<?php echo esc_attr( $price_breakdown['subtotal'] ); ?>"
-                 data-profit-margin-pct="<?php echo esc_attr( $price_breakdown['profit_margin_pct'] ); ?>"
-                 data-profit-margin="<?php echo esc_attr( $price_breakdown['profit_margin'] ); ?>"
-                 data-vat-pct="<?php echo esc_attr( $price_breakdown['vat_pct'] ); ?>"
-                 data-vat="<?php echo esc_attr( $price_breakdown['vat'] ); ?>"
-                 data-final-price="<?php echo esc_attr( $price_breakdown['final_price'] ); ?>"
-                 data-currency="<?php echo esc_attr( $currency_label ); ?>"
-                 style="display:none;">
-            </div>
+
+            <?php $this->render_breakdown_table( $rows ); ?>
         </div>
         <?php
+    }
+
+    public function add_variation_breakdown( $data, $product, $variation ) {
+        if ( ! Gold_Product_Meta::is_gold_product( $variation->get_parent_id() ) ) {
+            return $data;
+        }
+
+        if ( ! Gold_Product_Meta::is_gold_product( $variation->get_id() ) ) {
+            return $data;
+        }
+
+        $gold_data = $this->get_variation_gold_data( $variation );
+
+        if ( $gold_data['weight'] <= 0 ) {
+            return $data;
+        }
+
+        $rows = $this->render_breakdown_rows(
+            $gold_data['weight'],
+            $gold_data['karat'],
+            $gold_data['making_charge']
+        );
+
+        if ( '' !== $rows ) {
+            $data['gold_breakdown'] = $rows;
+        }
+
+        return $data;
+    }
+
+    private function get_variation_gold_data( $variation ) {
+        $gold_data = Gold_Product_Meta::get_gold_data( $variation->get_parent_id() );
+        $variation_id = $variation->get_id();
+
+        $weight = get_post_meta( $variation_id, '_gold_weight', true );
+        $karat = get_post_meta( $variation_id, '_gold_karat', true );
+        $making_charge = get_post_meta( $variation_id, '_making_charge', true );
+
+        if ( '' !== $weight && false !== $weight ) {
+            $gold_data['weight'] = floatval( $weight );
+        }
+        if ( ! empty( $karat ) ) {
+            $gold_data['karat'] = $karat;
+        }
+        if ( '' !== $making_charge && false !== $making_charge ) {
+            $gold_data['making_charge'] = floatval( $making_charge );
+        }
+
+        return $gold_data;
+    }
+
+    private function render_breakdown_table( $rows_html ) {
+        ?>
+        <div class="gold-calc-breakdown">
+            <h4 class="gold-calc-title"><?php esc_html_e( 'Gold Price Breakdown', 'gold-gallery-companion' ); ?></h4>
+            <table class="gold-calc-table">
+                <tbody class="gold-calc-tbody">
+                    <?php echo $rows_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    private function render_breakdown_rows( $weight, $karat, $making_charge ) {
+        $calculator = Gold_Price_Calculator::get_instance();
+        $breakdown = $calculator->calculate_price_array( $weight, $karat, $making_charge );
+
+        if ( $breakdown['gold_price_per_gram'] <= 0 ) {
+            return '';
+        }
+
+        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
+        $unit = 'toman' === $currency ? __( 'Toman', 'gold-gallery-companion' ) : __( 'Rial', 'gold-gallery-companion' );
+        $divisor = 'toman' === $currency ? 10 : 1;
+
+        $amount = function ( $value ) use ( $divisor ) {
+            return number_format( $value / $divisor );
+        };
+
+        ob_start();
+        ?>
+        <tr class="gold-calc-row">
+            <td class="gold-calc-label"><?php esc_html_e( 'Gold Value', 'gold-gallery-companion' ); ?></td>
+            <td class="gold-calc-amount"><span class="gold-calc-value"><?php echo esc_html( $amount( $breakdown['gold_value'] ) ); ?></span> <span class="gold-calc-unit"><?php echo esc_html( $unit ); ?></span></td>
+            <td class="gold-calc-formula"><?php esc_html_e( 'Weight × daily gold rate', 'gold-gallery-companion' ); ?></td>
+        </tr>
+        <tr class="gold-calc-row">
+            <td class="gold-calc-label"><?php esc_html_e( 'Making Charge', 'gold-gallery-companion' ); ?></td>
+            <td class="gold-calc-amount"><span class="gold-calc-value"><?php echo esc_html( $amount( $breakdown['making_charge'] ) ); ?></span> <span class="gold-calc-unit"><?php echo esc_html( $unit ); ?></span></td>
+            <td class="gold-calc-formula"><?php
+                printf(
+                    /* translators: %s: making charge percentage */
+                    esc_html__( 'Gold price × %s%%', 'gold-gallery-companion' ),
+                    esc_html( $this->format_percent( $breakdown['making_charge_pct'] ) )
+                );
+            ?></td>
+        </tr>
+        <tr class="gold-calc-row">
+            <td class="gold-calc-label"><?php esc_html_e( 'Profit', 'gold-gallery-companion' ); ?></td>
+            <td class="gold-calc-amount"><span class="gold-calc-value"><?php echo esc_html( $amount( $breakdown['profit_margin'] ) ); ?></span> <span class="gold-calc-unit"><?php echo esc_html( $unit ); ?></span></td>
+            <td class="gold-calc-formula"><?php
+                printf(
+                    /* translators: %s: profit margin percentage */
+                    esc_html__( '(Gold price + making charge) × %s%%', 'gold-gallery-companion' ),
+                    esc_html( $this->format_percent( $breakdown['profit_margin_pct'] ) )
+                );
+            ?></td>
+        </tr>
+        <tr class="gold-calc-row">
+            <td class="gold-calc-label"><?php esc_html_e( 'VAT', 'gold-gallery-companion' ); ?></td>
+            <td class="gold-calc-amount"><span class="gold-calc-value"><?php echo esc_html( $amount( $breakdown['vat'] ) ); ?></span> <span class="gold-calc-unit"><?php echo esc_html( $unit ); ?></span></td>
+            <td class="gold-calc-formula"><?php
+                printf(
+                    /* translators: %s: VAT percentage */
+                    esc_html__( '(Profit + making charge) × %s%%', 'gold-gallery-companion' ),
+                    esc_html( $this->format_percent( $breakdown['vat_pct'] ) )
+                );
+            ?></td>
+        </tr>
+        <tr class="gold-calc-row gold-calc-total">
+            <td class="gold-calc-label"><?php esc_html_e( 'Final Price', 'gold-gallery-companion' ); ?></td>
+            <td class="gold-calc-amount"><span class="gold-calc-value"><?php echo esc_html( $amount( $breakdown['final_price'] ) ); ?></span> <span class="gold-calc-unit"><?php echo esc_html( $unit ); ?></span></td>
+            <td class="gold-calc-formula"><?php esc_html_e( 'Gold price + making charge + profit + VAT', 'gold-gallery-companion' ); ?></td>
+        </tr>
+        <?php
+        return ob_get_clean();
+    }
+
+    private function format_percent( $value ) {
+        $formatted = number_format( floatval( $value ), 2, '.', '' );
+        return rtrim( rtrim( $formatted, '0' ), '.' );
     }
 
     public function display_gold_price_loop() {
@@ -208,54 +333,6 @@ class Gold_Frontend {
         echo '<span class="gold-mini-cart-label">' . esc_html__( 'Price reserved:', 'gold-gallery-companion' ) . '</span>';
         echo '<span class="gold-mini-cart-time">' . esc_html( $time_text ) . '</span>';
         echo '</div>';
-    }
-
-    public function render_price_modal() {
-        ?>
-        <div id="gold-price-modal" class="gold-modal" style="display:none;">
-            <div class="gold-modal-content">
-                <span class="gold-modal-close">&times;</span>
-                <h2><?php esc_html_e( 'Gold Price Breakdown', 'gold-gallery-companion' ); ?></h2>
-                
-                <div class="gold-modal-body">
-                    <table class="gold-price-table">
-                        <tr>
-                            <td><?php esc_html_e( 'Pure Gold Weight', 'gold-gallery-companion' ); ?></td>
-                            <td><span class="modal-pure-weight">-</span> g</td>
-                        </tr>
-                        <tr>
-                            <td><?php esc_html_e( 'Gold Price per Gram', 'gold-gallery-companion' ); ?></td>
-                            <td><span class="modal-gold-price">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr class="highlight">
-                            <td><?php esc_html_e( 'Gold Value', 'gold-gallery-companion' ); ?></td>
-                            <td><span class="modal-gold-value">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr>
-                            <td><?php esc_html_e( 'Making Charge', 'gold-gallery-companion' ); ?> (<span class="modal-making-pct">-</span>%)</td>
-                            <td><span class="modal-making-charge">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr class="subtotal">
-                            <td><?php esc_html_e( 'Subtotal', 'gold-gallery-companion' ); ?></td>
-                            <td><span class="modal-subtotal">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr>
-                            <td><?php esc_html_e( 'Profit Margin', 'gold-gallery-companion' ); ?> (<span class="modal-profit-pct">-</span>%)</td>
-                            <td><span class="modal-profit">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr>
-                            <td><?php esc_html_e( 'VAT', 'gold-gallery-companion' ); ?> (<span class="modal-vat-pct">-</span>%)</td>
-                            <td><span class="modal-vat">-</span> <span class="modal-currency">-</span></td>
-                        </tr>
-                        <tr class="total">
-                            <td><strong><?php esc_html_e( 'Final Price', 'gold-gallery-companion' ); ?></strong></td>
-                            <td><strong><span class="modal-final-price">-</span> <span class="modal-currency">-</span></strong></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <?php
     }
 
     public static function format_price( $price ) {

@@ -349,3 +349,30 @@ msgstr "قیمت‌گذاری طلا در دسترس نیست."
 
 msgid "Save Settings"
 msgstr "ذخیره تنظیمات"
+
+msgid "Making Charge"
+msgstr "اجرت ساخت"
+
+msgid "Profit"
+msgstr "سود فروش"
+
+msgid "VAT"
+msgstr "مالیات بر ارزش افزوده"
+
+msgid "Weight × daily gold rate"
+msgstr "وزن × نرخ روز طلا"
+
+msgid "Gold price × %s%%"
+msgstr "قیمت طلا × %s%%"
+
+msgid "(Gold price + making charge) × %s%%"
+msgstr "(قیمت طلا + اجرت ساخت) × %s%%"
+
+msgid "(Profit + making charge) × %s%%"
+msgstr "(سود فروش + اجرت ساخت) × %s%%"
+
+msgid "Gold price + making charge + profit + VAT"
+msgstr "قیمت طلا + اجرت ساخت + سود فروش + مالیات"
+
+msgid "Available in %s branch."
+msgstr "موجود در شعبه %s"
