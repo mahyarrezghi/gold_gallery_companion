@@ -38,8 +38,25 @@ class Gold_Settings {
             'gold_pricing_section',
             array(
                 'id'          => 'enable_auto_update',
-                'label'       => __( 'Automatically update gold prices from TGJU', 'gold-gallery-companion' ),
+                'label'       => __( 'Automatically update gold prices from the selected source', 'gold-gallery-companion' ),
                 'default'     => 'yes',
+            )
+        );
+
+        add_settings_field(
+            'price_source',
+            __( 'Price Source', 'gold-gallery-companion' ),
+            array( $this, 'select_field_callback' ),
+            'gold-settings',
+            'gold_pricing_section',
+            array(
+                'id'          => 'price_source',
+                'options'     => array(
+                    'tgju' => __( 'TGJU (tgju.org)', 'gold-gallery-companion' ),
+                    'tala' => __( 'tala.ir', 'gold-gallery-companion' ),
+                ),
+                'description' => __( 'Primary source for automatic gold prices. The other source is used as a fallback, and if both are unavailable the highest price recorded today is used.', 'gold-gallery-companion' ),
+                'default'     => 'tgju',
             )
         );
 
@@ -170,6 +187,8 @@ class Gold_Settings {
 
         $sanitized['default_karat'] = isset( $input['default_karat'] ) && in_array( $input['default_karat'], array( '18k', '24k' ) ) ? $input['default_karat'] : '18k';
 
+        $sanitized['price_source'] = isset( $input['price_source'] ) && in_array( $input['price_source'], array( 'tgju', 'tala' ), true ) ? $input['price_source'] : 'tgju';
+
         $sanitized['default_making_charge'] = isset( $input['default_making_charge'] ) ? floatval( $input['default_making_charge'] ) : 10;
         $sanitized['profit_margin'] = isset( $input['profit_margin'] ) ? floatval( $input['profit_margin'] ) : 7;
         $sanitized['vat'] = isset( $input['vat'] ) ? floatval( $input['vat'] ) : 9;
@@ -187,7 +206,7 @@ class Gold_Settings {
     }
 
     public function manual_section_callback() {
-        echo '<p>' . esc_html__( 'Set manual prices as fallback when TGJU is unavailable. Enter prices in Rial (not Toman).', 'gold-gallery-companion' ) . '</p>';
+        echo '<p>' . esc_html__( 'Set manual prices as fallback when the selected price source is unavailable. Enter prices in Rial (not Toman).', 'gold-gallery-companion' ) . '</p>';
     }
 
     public function checkbox_field_callback( $args ) {
@@ -242,8 +261,10 @@ class Gold_Settings {
         $price_18k_toman = $price_18k > 0 ? number_format( $price_18k / 10 ) : 'N/A';
         $price_24k_toman = $price_24k > 0 ? number_format( $price_24k / 10 ) : 'N/A';
 
-        $cache_time = get_option( '_transient_timeout_gold_price_18k', false );
+        $cache_time = get_site_option( '_site_transient_timeout_' . $scraper->get_transient_key( '18k' ), false );
         $time_remaining = $cache_time ? human_time_diff( time(), $cache_time ) : 'N/A';
+
+        $active_source = $scraper->get_source();
 
         $last_update = get_option( 'gold_last_price_update', false );
         $last_update_text = $last_update ? human_time_diff( $last_update, time() ) : __( 'Never', 'gold-gallery-companion' );
@@ -255,6 +276,7 @@ class Gold_Settings {
                 <h2><?php esc_html_e( 'Current Gold Prices', 'gold-gallery-companion' ); ?></h2>
                 <p><strong><?php esc_html_e( '18K Gold:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $price_18k_toman ); ?> <?php esc_html_e( 'Toman/gram', 'gold-gallery-companion' ); ?></p>
                 <p><strong><?php esc_html_e( '24K Gold:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( $price_24k_toman ); ?> <?php esc_html_e( 'Toman/gram', 'gold-gallery-companion' ); ?></p>
+                <p><strong><?php esc_html_e( 'Active Source:', 'gold-gallery-companion' ); ?></strong> <?php echo esc_html( 'tala' === $active_source ? __( 'tala.ir', 'gold-gallery-companion' ) : __( 'TGJU', 'gold-gallery-companion' ) ); ?></p>
                 <p class="description"><?php esc_html_e( 'Prices refresh automatically every 1 hour.', 'gold-gallery-companion' ); ?></p>
                 <p class="description"><?php printf( esc_html__( 'Next refresh in: %s', 'gold-gallery-companion' ), '<strong>' . esc_html( $time_remaining ) . '</strong>' ); ?></p>
                 <button type="button" class="button button-secondary" id="gold-refresh-prices">
