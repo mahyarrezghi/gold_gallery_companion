@@ -150,7 +150,7 @@ class Gold_Price_Calculator {
         }
 
         $profit_margin = Gold_Settings::get_setting( 'profit_margin', 7 );
-        $vat = Gold_Settings::get_setting( 'vat', 9 );
+        $vat = Gold_Settings::get_setting( 'vat', 10 );
 
         $gold_value = floatval( $weight ) * $gold_price_per_gram;
         
@@ -160,11 +160,17 @@ class Gold_Price_Calculator {
         
         $profit_amount = $subtotal * ( floatval( $profit_margin ) / 100 );
         
-        $vat_amount = ( $subtotal + $profit_amount ) * ( floatval( $vat ) / 100 );
+        $vat_amount = ( $making_charge_amount + $profit_amount ) * ( floatval( $vat ) / 100 );
         
         $final_price = $subtotal + $profit_amount + $vat_amount;
         
-        return round( $final_price );
+        return $this->round_final_price( $final_price );
+    }
+
+    private function round_final_price( $price ) {
+        $currency = Gold_Settings::get_setting( 'price_display', 'toman' );
+        $step = ( 'toman' === $currency ) ? 10000 : 1000;
+        return floor( $price / $step ) * $step;
     }
 
     public function calculate_price_array( $weight, $karat = '18k', $making_charge = null ) {
@@ -210,7 +216,7 @@ class Gold_Price_Calculator {
         }
 
         $profit_margin = Gold_Settings::get_setting( 'profit_margin', 7 );
-        $vat = Gold_Settings::get_setting( 'vat', 9 );
+        $vat = Gold_Settings::get_setting( 'vat', 10 );
 
         $gold_value = floatval( $weight ) * $gold_price_per_gram;
         
@@ -220,7 +226,7 @@ class Gold_Price_Calculator {
         
         $profit_amount = $subtotal * ( floatval( $profit_margin ) / 100 );
         
-        $vat_amount = ( $subtotal + $profit_amount ) * ( floatval( $vat ) / 100 );
+        $vat_amount = ( $making_charge_amount + $profit_amount ) * ( floatval( $vat ) / 100 );
         
         $final_price = $subtotal + $profit_amount + $vat_amount;
 
@@ -233,7 +239,7 @@ class Gold_Price_Calculator {
             'profit_margin_pct' => floatval( $profit_margin ),
             'vat'               => round( $vat_amount ),
             'vat_pct'           => floatval( $vat ),
-            'final_price'       => round( $final_price ),
+            'final_price'       => $this->round_final_price( $final_price ),
             'weight'            => floatval( $weight ),
             'gold_price_per_gram' => $gold_price_per_gram,
         );

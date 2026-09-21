@@ -128,8 +128,8 @@ msgstr "درصد سود فروشنده"
 msgid "VAT (%)"
 msgstr "مالیات بر ارزش افزوده (%)"
 
-msgid "Value Added Tax percentage"
-msgstr "درصد مالیات بر ارزش افزوده"
+msgid "Value Added Tax percentage (applied to making charge and profit only)"
+msgstr "درصد مالیات بر ارزش افزوده (فقط بر اجرت ساخت و سود اعمال می‌شود)"
 
 msgid "Price Display Format"
 msgstr "فرمت نمایش قیمت"

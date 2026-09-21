@@ -117,8 +117,8 @@ class Gold_Settings {
             'gold_pricing_section',
             array(
                 'id'          => 'vat',
-                'description' => __( 'Value Added Tax percentage', 'gold-gallery-companion' ),
-                'default'     => 9,
+                'description' => __( 'Value Added Tax percentage (applied to making charge and profit only)', 'gold-gallery-companion' ),
+                'default'     => 10,
                 'min'         => 0,
                 'max'         => 100,
                 'step'        => 0.1,
@@ -191,7 +191,7 @@ class Gold_Settings {
 
         $sanitized['default_making_charge'] = isset( $input['default_making_charge'] ) ? floatval( $input['default_making_charge'] ) : 10;
         $sanitized['profit_margin'] = isset( $input['profit_margin'] ) ? floatval( $input['profit_margin'] ) : 7;
-        $sanitized['vat'] = isset( $input['vat'] ) ? floatval( $input['vat'] ) : 9;
+        $sanitized['vat'] = isset( $input['vat'] ) ? floatval( $input['vat'] ) : 10;
 
         $sanitized['price_display'] = isset( $input['price_display'] ) && in_array( $input['price_display'], array( 'toman', 'rial' ) ) ? $input['price_display'] : 'toman';
 
