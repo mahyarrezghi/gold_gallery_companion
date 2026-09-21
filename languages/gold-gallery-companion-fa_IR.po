@@ -86,6 +86,30 @@ msgstr "۱۸ عیار (۷۵۰)"
 msgid "24K (999)"
 msgstr "۲۴ عیار (۹۹۹)"
 
+msgid "Gold Karat"
+msgstr "عیار طلا"
+
+msgid "Making Charge (%)"
+msgstr "اجرت ساخت (%)"
+
+msgid "Ojrat-e-Saakht percentage"
+msgstr "درصد اجرت ساخت"
+
+msgid "Branch/Location"
+msgstr "شعبه/محل"
+
+msgid "Karat:"
+msgstr "عیار:"
+
+msgid "18K"
+msgstr "۱۸ عیار"
+
+msgid "24K"
+msgstr "۲۴ عیار"
+
+msgid "Branch:"
+msgstr "شعبه:"
+
 msgid "Default karat for new products"
 msgstr "عیار پیش‌فرض برای محصولات جدید"
 
@@ -322,3 +346,6 @@ msgstr "دسترسی مجاز نیست."
 
 msgid "Gold pricing is unavailable."
 msgstr "قیمت‌گذاری طلا در دسترس نیست."
+
+msgid "Save Settings"
+msgstr "ذخیره تنظیمات"
