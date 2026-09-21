@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Gold Gallery Companion
- * Plugin URI: https://example.com/
+ * Plugin URI: https://site0.ir/
  * Description: WooCommerce plugin for selling gold products with automatic price calculation based on Iranian gold pricing formula
  * Version: 1.0.0
- * Author: Your Name
- * Author URI: https://example.com/
+ * Author: Mahyar Rezghi
+ * Author URI: https://site0.ir/
  * Text Domain: gold-gallery-companion
  * Domain Path: /languages
  */
