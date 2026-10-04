@@ -12,6 +12,8 @@ class Gold_Frontend {
     }
 
     private function __construct() {
+        add_shortcode( 'gold_price', array( $this, 'render_gold_price_shortcode' ) );
+
         add_action( 'woocommerce_single_product_summary', array( $this, 'display_gold_price_info' ), 15 );
         
         add_action( 'woocommerce_after_cart', array( $this, 'display_cart_countdown' ) );
@@ -314,6 +316,33 @@ class Gold_Frontend {
         echo '<span class="gold-mini-cart-label">' . esc_html__( 'Price reserved:', 'gold-gallery-companion' ) . '</span>';
         echo '<span class="gold-mini-cart-time">' . esc_html( $time_text ) . '</span>';
         echo '</div>';
+    }
+
+    public function render_gold_price_shortcode( $atts ) {
+        $atts = shortcode_atts( array(
+            'karat'    => Gold_Settings::get_setting( 'default_karat', '18k' ),
+            'currency' => 'toman',
+        ), $atts, 'gold_price' );
+
+        if ( ! class_exists( 'Gold_Scraper' ) ) {
+            return '';
+        }
+
+        $karat    = ( '24k' === strtolower( $atts['karat'] ) ) ? '24k' : '18k';
+        $currency = ( 'rial' === strtolower( $atts['currency'] ) ) ? 'rial' : 'toman';
+
+        $price_rial = Gold_Scraper::get_instance()->get_gold_price( $karat );
+
+        if ( $price_rial <= 0 ) {
+            return '';
+        }
+
+        $price = ( 'rial' === $currency ) ? $price_rial : $price_rial / 10;
+        $label = ( 'rial' === $currency ) ? 'ریال' : 'تومان';
+
+        return '<span class="gold-price-shortcode" data-karat="' . esc_attr( $karat ) . '">'
+            . esc_html( number_format( $price ) . ' ' . $label )
+            . '</span>';
     }
 
     public static function format_price( $price ) {
